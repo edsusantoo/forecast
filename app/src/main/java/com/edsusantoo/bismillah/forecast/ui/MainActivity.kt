@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
+        //membuat bottomnavigation dengan navigation
         bottom_nav.setupWithNavController(navController)
 
         //membuat ketika diklik back ditoolbar akan kembali ke menu home
