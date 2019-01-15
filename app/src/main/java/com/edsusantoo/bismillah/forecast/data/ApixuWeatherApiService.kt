@@ -1,5 +1,6 @@
 package com.edsusantoo.bismillah.forecast.data
 
+import com.edsusantoo.bismillah.forecast.data.network.ConnectivityInterceptor
 import com.edsusantoo.bismillah.forecast.data.network.response.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -25,7 +26,9 @@ interface ApixuWeatherApiService {
 
     //seperti static class dijava
     companion object {
-        operator fun invoke(): ApixuWeatherApiService {
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ): ApixuWeatherApiService {
             val requestInterceptor = Interceptor { chain ->
 
                 //mengubah url dan menambahkan keynya
@@ -47,6 +50,7 @@ interface ApixuWeatherApiService {
 
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
                 .build()
 
             return Retrofit.Builder()
