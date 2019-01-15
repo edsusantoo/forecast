@@ -1,4 +1,4 @@
-package com.edsusantoo.bismillah.forecast.data.response
+package com.edsusantoo.bismillah.forecast.data.db.entity
 
 import com.google.gson.annotations.SerializedName
 

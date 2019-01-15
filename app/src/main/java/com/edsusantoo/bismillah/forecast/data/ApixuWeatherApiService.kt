@@ -1,6 +1,6 @@
 package com.edsusantoo.bismillah.forecast.data
 
-import com.edsusantoo.bismillah.forecast.data.response.CurrentWeatherResponse
+import com.edsusantoo.bismillah.forecast.data.network.response.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
