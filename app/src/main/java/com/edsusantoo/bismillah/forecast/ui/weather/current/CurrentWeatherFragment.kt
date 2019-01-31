@@ -33,7 +33,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
+        viewModel = ViewModelProviders.of(this, viewModelFactory) //ini buat menghubungkan kodeinnya
             .get(CurrentWeatherViewModel::class.java)
 
         bindUI()

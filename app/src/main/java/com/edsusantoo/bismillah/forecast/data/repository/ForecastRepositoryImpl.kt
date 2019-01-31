@@ -15,41 +15,44 @@ import java.time.ZonedDateTime
 import java.util.*
 
 class ForecastRepositoryImpl(
-    private val currentWeatherDao:CurrentWeatherDao,
-    private val weatherNetworkDataSource:WeatherNetworkDataSource
+    private val currentWeatherDao: CurrentWeatherDao,
+    private val weatherNetworkDataSource: WeatherNetworkDataSource
 ) : ForecastRepository {
     init {
         weatherNetworkDataSource.downloadedCurrentWeather.observeForever { newCurrentWeather ->
             persistFetchedCurrentWeather(newCurrentWeather)
         }
     }
+
+
     override suspend fun getCurrentWeather(metric: Boolean): LiveData<out UnitSpecificCurrentWeatherEntry> {
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             initWeatherData()
-            return@withContext if(metric) currentWeatherDao.getWeatherMetric()
+            return@withContext if (metric) currentWeatherDao.getWeatherMetric()
             else currentWeatherDao.getWeatherImperial()
         }
     }
 
-    private fun persistFetchedCurrentWeather(fetchedWeather:CurrentWeatherResponse){
+    private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse) {
         GlobalScope.launch(Dispatchers.IO) {
             currentWeatherDao.upsert(fetchedWeather.currentWeatherEntry)
         }
     }
 
-    private suspend fun initWeatherData(){
-        if (isFetchCurrentNeeded(ZonedDateTime.now().minusHours(1)))
+    private suspend fun initWeatherData() {
+        //if (isFetchCurrentNeeded(ZonedDateTime.now().minusHours(1)))
             fetchCurrentWeather()
     }
 
-    private suspend fun fetchCurrentWeather(){
-        weatherNetworkDataSource.fetchCurrentWeather("Los Angles",
+    private suspend fun fetchCurrentWeather() {
+        weatherNetworkDataSource.fetchCurrentWeather(
+            "Los Angles",
             Locale.getDefault().language
         )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun isFetchCurrentNeeded(lastFetchtime:ZonedDateTime):Boolean{
+    private fun isFetchCurrentNeeded(lastFetchtime: ZonedDateTime): Boolean {
         val thirtyMinutesAgo = ZonedDateTime.now().minusMinutes(30)
         return lastFetchtime.isBefore(thirtyMinutesAgo)
     }
