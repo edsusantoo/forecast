@@ -6,4 +6,6 @@
     <string name="current">Current</string>
     <string name="detail_wheater">detail wheater</string>
     <string name="listview_wheather">listview wheather</string>
+    <string name="loading">Loading</string>
+    <string name="minus">-</string>
 </resources>
