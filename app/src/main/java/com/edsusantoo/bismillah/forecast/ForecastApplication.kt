@@ -5,6 +5,7 @@ import com.edsusantoo.bismillah.forecast.data.db.ForecastDatabase
 import com.edsusantoo.bismillah.forecast.data.network.*
 import com.edsusantoo.bismillah.forecast.data.repository.ForecastRepository
 import com.edsusantoo.bismillah.forecast.data.repository.ForecastRepositoryImpl
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -23,5 +24,10 @@ class ForecastApplication : Application(),KodeinAware{
         bind() from singleton { ApixuWeatherApiService(instance()) }
         bind<WeatherNetworkDataSource>()with singleton { WeatherNetworkDataSourceImpl(instance()) }
         bind<ForecastRepository>()with singleton { ForecastRepositoryImpl(instance(),instance()) }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        AndroidThreeTen.init(this)
     }
 }
